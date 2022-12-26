@@ -1,0 +1,21 @@
+export const REVOKE = 'REVOKE';
+export const SET_USER_LOGIN = 'SET_USER_LOGIN';
+export const SET_USER_LOGOUT = 'SET_USER_LOGOUT';
+export const ADD_DEVICE_ID = 'ADD_DEVICE_ID';
+export const ADD_FIREBASE_TOKEN = 'ADD_FIREBASE_TOKEN';
+export const ADD_TYPE_APP = 'ADD_TYPE_APP';
+export const SET_NUM_NOTIFY = 'SET_NUM_NOTIFY';
+export const SET_SIGN_UP = 'SET_SIGN_UP';
+export const SET_BLOGS = 'SET_BLOGS';
+export const SET_TYPE_BLOG = 'SET_TYPE_BLOG';
+export const CHECK_MODAL = 'CHECK_MODAL';
+export const CHECK_SCREEN = 'CHECK_SCREEN';
+export const FETCH_DATA = 'FETCH_DATA';
+export const FETCH_DATA_SUCCESS = 'FETCH_DATA_SUCCESS';
+export const FETCH_DATA_FAILED = 'FETCH_DATA_FAILED';
+export const SET_ORDER_LINE = 'SET_ORDER_LINE';
+export const SET_LIST_MONTH = 'SET_LIST_MONTH';
+export const SET_LIST_APPROVER = 'SET_LIST_APPROVER';
+
+export const LOGIN = 'LOGIN';
+export const LOGOUT = 'LOGOUT';
