@@ -23,6 +23,7 @@
 #import <AppCenterReactNative.h>
 #import <AppCenterReactNativeAnalytics.h>
 #import <AppCenterReactNativeCrashes.h>
+#import <Firebase.h>
 
 static NSString *const kRNConcurrentRoot = @"concurrentRoot";
 
@@ -40,7 +41,11 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   RCTAppSetupPrepareApp(application);
-
+//add firebase config
+if ([FIRApp defaultApp] == nil) {
+    [FIRApp configure];
+  }
+//add firebase config
 
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
 
