@@ -79,5 +79,9 @@
 		<string>Montserrat-Italic.ttf</string>
 		<string>Montserrat-Regular.ttf</string>
 	</array>
+	<key>AppSecret</key>
+	<string>8ab79122-d2ec-4a6c-8030-496bb068b597</string>
+	<key>CodePushDeploymentKey</key>
+	<string>8ab79122-d2ec-4a6c-8030-496bb068b597</string>
 </dict>
 </plist>

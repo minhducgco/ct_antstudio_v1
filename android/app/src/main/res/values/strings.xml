@@ -2,4 +2,7 @@
     <string name="app_name">ct_antstudio_v1</string>
     <string name="facebook_app_id">875933576873186</string>
     <string name="facebook_client_token">4e24f46bbe7bdc27114f88689a3fde56</string>
+    <string name="appCenterCrashes_whenToSendCrashes" moduleConfig="true" translatable="false">DO_NOT_ASK_JAVASCRIPT</string>
+    <string name="appCenterAnalytics_whenToEnableAnalytics" moduleConfig="true" translatable="false">ALWAYS_SEND</string>
+    <string moduleConfig="true" name="CodePushDeploymentKey">140b7d1e-405f-4305-ac19-33d1554c7a72</string>
 </resources>
