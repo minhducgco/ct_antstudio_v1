@@ -1,13 +1,12 @@
-import {PermissionsAndroid} from 'react-native';
 import moment from 'moment';
-import {Vibration} from 'react-native';
-import Toast from 'react-native-simple-toast';
-
-import {VN_FORMAT_DATE} from '@configs/Configs';
+// import Toast from 'react-native-simple-toast';
+import {PermissionsAndroid} from 'react-native';
 
 RegExp.quote = function (str) {
   return str.replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1');
 };
+
+var Utils = {};
 
 export async function hasAndroidPermission({permission, title}) {
   const hasPermission = await PermissionsAndroid.check(permission);
@@ -17,8 +16,6 @@ export async function hasAndroidPermission({permission, title}) {
   const status = await PermissionsAndroid.request(permission, title);
   return status === 'granted';
 }
-
-var Utils = {};
 
 export function num2numDong(num, currency, currencyLabel) {
   /**
@@ -70,86 +67,38 @@ export function onchangeNumber(text) {
   return text;
 }
 
-export function convertFloatToTimeString(floatTime) {
-  /**
-   * chuyển đổi dạng số sang dạng HH:mm (thời gian)
-   */
-  if (typeof floatTime === 'number') {
-    if (floatTime < 0) {
-      floatTime = 0;
-    }
-    let minute = Math.floor((floatTime - Math.floor(floatTime)) * 60);
-    let timeNotFormatted =
-      Math.floor(floatTime).toString() + ':' + minute.toString();
-    let timeFormatted = moment(timeNotFormatted, 'HH:mm').format('HH:mm');
-    return timeFormatted;
-  }
-  return floatTime;
-}
-
-export function convertTimeStringToFloat(timeString) {
-  /**
-   * Chuyển đổi dạng string sang dạng số.
-   */
-  if (typeof timeString === 'string') {
-    let timeArray = timeString.split(':');
-    let hour = Number(timeArray[0]);
-    let minute = Number(timeArray[1]) / 60;
-    return hour + minute;
-  }
-  return timeString;
-}
-
-export const showMessage = message => {
-  Vibration.vibrate();
-  Toast.show(message, Toast.SHORT, Toast.BOTTOM);
-};
+// export const showMessage = message => {
+//   Toast.show(message, Toast.SHORT, Toast.BOTTOM);
+// };
 
 export const convertAmount = amount => {
   let amountVND = amount.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,');
   return amountVND;
 };
-export function getDaysArray(start, end) {
-  var dateArray = [];
-  var currentDate = moment(start, VN_FORMAT_DATE);
-  var stopDate = moment(end, VN_FORMAT_DATE);
-  while (currentDate <= stopDate) {
-    dateArray.push(moment(currentDate).format(VN_FORMAT_DATE));
-    currentDate = moment(currentDate).add(1, 'days');
+
+export const timeFormat = timeStamp => {
+  if (moment(timeStamp).isValid()) {
+    if (moment().diff(moment.unix(timeStamp), 'days') === 0) {
+      return moment.unix(timeStamp, ['hh:mm']).format('h:mm a'); // 3:20 pm
+    } else if (moment().diff(moment.unix(timeStamp), 'days') < 7) {
+      return moment.unix(timeStamp).format('ddd'); // Tue, Wed etc
+    } else {
+      return moment.unix(timeStamp).format('D MMM'); // 20 Jan
+    }
   }
-  return dateArray;
-}
-// Lấy số lượng bản ghi từ mảng các tháng
-export const getMapFromArray = data => {
-  return data.reduce((obj, item) => {
-    return obj + item.data.length;
-  }, 0);
+  return ' ';
 };
 
-// Trả về ngày đầu tiên và cuối cùng của tháng
-export const getFirstLastDayOfMonth = data => {
-  const myArray = data.split('/');
-  const lastDay = new Date(new Date(myArray[1], myArray[0], 1) - 1);
-  const firstDay = new Date(new Date(myArray[1], myArray[0] - 1, 1));
-  return {lastDay, firstDay};
+export const getUnixTimeStamp = () => {
+  return moment().unix();
 };
 
-// Format dd/mmm/yyy hh:mm:ss to yyyy/mmm/dd hh:mm:ss
-export const formatDate = data => {
-  const myArray = data.split(' ');
-  const day = myArray[0].split('/').reverse().join('-');
-  const dayFormat = day + ' ' + myArray[1];
-  return {dayFormat};
-};
-
+Utils.timeFormat = timeFormat;
 // Utils.showMessage = showMessage;
 Utils.num2numDong = num2numDong;
-Utils.onchangeNumber = onchangeNumber;
-Utils.convertFloatToTimeString = convertFloatToTimeString;
-Utils.convertTimeStringToFloat = convertTimeStringToFloat;
 Utils.convertAmount = convertAmount;
-Utils.getDaysArray = getDaysArray;
-Utils.getMapFromArray = getMapFromArray;
-Utils.getFirstLastDayOfMonth = getFirstLastDayOfMonth;
-Utils.formatDate = formatDate;
+Utils.onchangeNumber = onchangeNumber;
+Utils.getUnixTimeStamp = getUnixTimeStamp;
+Utils.hasAndroidPermission = hasAndroidPermission;
+
 export default Utils;

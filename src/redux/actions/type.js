@@ -16,6 +16,7 @@ export const FETCH_DATA_FAILED = 'FETCH_DATA_FAILED';
 export const SET_ORDER_LINE = 'SET_ORDER_LINE';
 export const SET_LIST_MONTH = 'SET_LIST_MONTH';
 export const SET_LIST_APPROVER = 'SET_LIST_APPROVER';
+export const SET_LOADING = 'SET_LOADING';
 
 export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';

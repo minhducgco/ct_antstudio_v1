@@ -1,1 +1,22 @@
-{}
+{
+  "email": "Email",
+  "sign_in": "Sign In",
+  "sign_out": "Sign Out",
+  "username": "Username",
+  "password": "Password",
+  "change_password": "Change Password",
+  "change_language": "Change Language",
+  "settings": "Settings",
+  "new_password": "New password",
+  "confirm_password": "Confirm password",
+  "old_password": "Please enter your password!",
+  "please_enter_your_new_password": "Please enter your new password!",
+  "please_reenter_your_new_password": "Please re-enter your new password!",
+  "password_changed_successfully": "Password changed successfully!",
+  "enter_wrong_password_please_re_enter": "Enter wrong password, please re-enter",
+  "email_or_password_is_invalid": "Email or password is invalid!",
+  "forgot_password": "Forgot password?",
+  "login_with": "Or, login with...",
+  "new_to_Chiti": "New to Chiti?",
+  "register": "Register"
+}

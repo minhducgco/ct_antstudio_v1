@@ -5,9 +5,11 @@ import {
   SET_NUM_NOTIFY,
   SET_BLOGS,
   SET_TYPE_BLOG,
+  SET_LOADING,
 } from '../actions/type';
 
 const initialState = {
+  isLoading: false,
   deviceId: '',
   deviceInfo: '',
   firebaseToken: '',
@@ -18,6 +20,8 @@ const initialState = {
 
 export default function configReducer(state = initialState, action) {
   switch (action.type) {
+    case SET_LOADING:
+      return {...state, isLoading: action.payload};
     case ADD_DEVICE_ID:
       return {
         ...state,

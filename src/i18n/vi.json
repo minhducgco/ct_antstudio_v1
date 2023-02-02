@@ -1,2 +1,22 @@
-{}
-   
+{
+  "email": "Email",
+  "sign_in": "Đăng nhập",
+  "sign_out": "Đăng xuất",
+  "username": "Tên đăng nhập",
+  "password": "Mật khẩu",
+  "change_password": "Đổi mật khẩu",
+  "change_language": "Đổi ngôn ngữ",
+  "settings": "Cài đặt",
+  "new_password": "Nhập mật khẩu mới",
+  "confirm_password": "Nhập lại mật khẩu mới",
+  "old_password": "Vui lòng nhập mật khẩu của bạn!",
+  "please_enter_your_new_password": "Vui lòng nhập mật khẩu mới của bạn!",
+  "please_reenter_your_new_password": "Vui lòng nhập lại mật khẩu mới của bạn!",
+  "password_changed_successfully": " Thay Đổi mật khẩu thành công!",
+  "enter_wrong_password_please_re_enter": "Nhập sai mật khẩu, vui lòng nhập lại!",
+  "email_or_password_is_invalid": "Email hoặc mật khẩu không hợp lệ!",
+  "forgot_password": "Quên mật khẩu?",
+  "login_with": "Hoặc, đăng nhập bằng...",
+  "new_to_Chiti": "Bạn mới sử dụng Chiti?",
+  "register": "Đăng ký"
+}

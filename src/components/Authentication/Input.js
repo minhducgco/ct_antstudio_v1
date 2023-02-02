@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import normalize from 'react-native-normalize';
-import {View, Text, TextInput, StyleSheet} from 'react-native';
+import {View, TextInput, StyleSheet} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import COLORS from '@styles/color';
@@ -35,7 +35,7 @@ const Input = ({
         <MaterialCommunityIcons
           name={iconName}
           style={{
-            color: COLORS.darkBlue,
+            color: COLORS.MAIN,
             fontSize: 22,
             marginRight: 10,
           }}
@@ -70,16 +70,6 @@ const Input = ({
           />
         )}
       </View>
-      {error && (
-        <Text
-          style={{
-            color: COLORS.CRIMSON,
-            fontSize: 12,
-            marginLeft: normalize(30),
-          }}>
-          {error}
-        </Text>
-      )}
     </View>
   );
 };
@@ -92,7 +82,7 @@ const style = StyleSheet.create({
     fontFamily: theme.FONT_FAMILY,
   },
   inputContainer: {
-    height: 45,
+    height: normalize(50),
     backgroundColor: COLORS.light,
     flexDirection: 'row',
     paddingHorizontal: 15,

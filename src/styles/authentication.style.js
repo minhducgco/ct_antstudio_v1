@@ -1,34 +1,104 @@
-import theme from './theme.style';
 import normalize from 'react-native-normalize';
 
+import color from '@styles/color';
+import themeStyle from '@styles/theme.style';
+
 export const authenticationStyle = {
-  contain: {
+  containerSpanish: {
     flex: 1,
-    backgroundColor: theme.COLOR_WHITE,
-  },
-  form: {paddingHorizontal: 30},
-  textButton: {
-    fontSize: normalize(20),
-    fontFamily: theme.FONT_BOLD,
-    color: '#ffffff',
-  },
-  container: {
-    flexDirection: 'column',
     alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: color.WHITE,
   },
-  logo: {
-    alignSelf: 'center',
-    height: normalize(150),
-    width: '70%',
-    marginBottom: normalize(20),
+  txtLogo: {
+    fontSize: 150,
+    fontFamily: themeStyle.FONT_LOGO,
+    color: color.MAIN,
+    textAlign: 'center',
+  },
+  copyRight: {
+    fontFamily: themeStyle.FONT_FAMILY,
+    fontSize: 14,
+  },
+  containLogin: {
+    flex: 1,
+    backgroundColor: color.WHITE,
+  },
+  formLogin: {
+    flex: 1,
+    paddingHorizontal: 20,
+    justifyContent: 'center',
+  },
+  alertRequireText: {
+    textAlign: 'center',
+    color: themeStyle.MAIN_COLOR,
+    fontFamily: themeStyle.FONT_FAMILY,
   },
   loginButton: {
-    marginTop: normalize(20),
+    marginTop: normalize(10),
     alignSelf: 'center',
     justifyContent: 'center',
     height: normalize(50),
-    width: '50%',
-    borderRadius: normalize(15),
-    backgroundColor: theme.MAIN_COLOR,
+    width: '90%',
+    borderRadius: normalize(5),
+    backgroundColor: color.MAIN,
+  },
+  textButton: {
+    fontSize: 20,
+    fontFamily: themeStyle.FONT_BOLD,
+    color: '#ffffff',
+  },
+  txtForgetPass: {
+    fontFamily: themeStyle.FONT_FAMILY,
+    color: color.MAIN,
+    textAlign: 'center',
+    paddingVertical: normalize(10),
+    fontSize: 15,
+  },
+  txtLoginWith: {
+    marginVertical: normalize(20),
+    alignSelf: 'center',
+    fontFamily: themeStyle.FONT_FAMILY,
+    fontSize: 16,
+  },
+  registerArea: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: normalize(40),
+    marginBottom: normalize(10),
+  },
+  txtNewTo: {fontFamily: themeStyle.FONT_FAMILY, fontSize: 16},
+  txtRegister: {
+    fontFamily: themeStyle.FONT_FAMILY,
+    color: color.MAIN,
+    marginLeft: normalize(5),
+    fontSize: 16,
+  },
+  loginWith: {
+    alignSelf: 'center',
+    flexDirection: 'row',
+  },
+  logo: {
+    alignSelf: 'center',
+    height: normalize(30, 'height'),
+    resizeMode: 'contain',
+    flex: 2,
+  },
+  buttonLoginWith: {
+    height: normalize(50),
+    borderWidth: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: themeStyle.COLOR_GRAY,
+    borderRadius: normalize(10),
+    marginHorizontal: normalize(5),
+    flexDirection: 'row',
+    width: normalize(95),
+  },
+  loginWithText: {
+    fontFamily: themeStyle.FONT_FAMILY,
+    flex: 8,
+    alignSelf: 'center',
+    fontSize: 16,
   },
 };

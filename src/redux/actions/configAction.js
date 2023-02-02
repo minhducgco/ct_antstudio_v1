@@ -5,7 +5,15 @@ import {
   SET_NUM_NOTIFY,
   SET_BLOGS,
   SET_TYPE_BLOG,
+  SET_LOADING,
 } from './type';
+
+export const setLoading = payload => {
+  return {
+    type: SET_LOADING,
+    payload,
+  };
+};
 
 export const onAddDeviceId = (deviceId, deviceInfo) => dispatch => {
   dispatch({
