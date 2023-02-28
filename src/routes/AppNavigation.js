@@ -1,4 +1,5 @@
 import React from 'react';
+import RNBootSplash from 'react-native-bootsplash';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
@@ -37,7 +38,7 @@ const RootNavigator = () => (
 
 export const AppNavigation = () => {
   return (
-    <NavigationContainer>
+    <NavigationContainer onReady={() => RNBootSplash.hide()}>
       <RootNavigator />
     </NavigationContainer>
   );

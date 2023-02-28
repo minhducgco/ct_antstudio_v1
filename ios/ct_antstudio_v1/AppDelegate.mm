@@ -1,4 +1,5 @@
 #import "AppDelegate.h"
+#import "RNBootSplash.h" 
 
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
@@ -13,16 +14,10 @@
 #import <React/RCTSurfacePresenter.h>
 #import <React/RCTSurfacePresenterBridgeAdapter.h>
 #import <ReactCommon/RCTTurboModuleManager.h>
-
 #import <react/config/ReactNativeConfig.h>
-
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <React/RCTLinkingManager.h>
-
 #import <CodePush/CodePush.h>
-#import <AppCenterReactNative.h>
-#import <AppCenterReactNativeAnalytics.h>
-#import <AppCenterReactNativeCrashes.h>
 #import <Firebase.h>
 
 static NSString *const kRNConcurrentRoot = @"concurrentRoot";

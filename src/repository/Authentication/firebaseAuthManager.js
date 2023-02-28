@@ -78,11 +78,7 @@ export const loginOrSignUpWithApple = appConfig => {
 };
 
 export const loginOrSignUpWithGoogle = appConfig => {
-  GoogleSignin.configure({
-    offlineAccess: true,
-    webClientId: appConfig.webClientId,
-    scopes: ['profile', 'email'],
-  });
+  GoogleSignin.configure(appConfig);
   return new Promise(async (resolve, _reject) => {
     try {
       const {idToken} = await GoogleSignin.signIn();
@@ -108,7 +104,7 @@ export const loginOrSignUpWithGoogle = appConfig => {
           }
         });
     } catch (error) {
-      console.log(error);
+      console.log('Đức', error);
       resolve({
         error: ErrorCode.googleSigninFailed,
       });

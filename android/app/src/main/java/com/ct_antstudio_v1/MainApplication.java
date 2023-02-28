@@ -24,12 +24,6 @@ public class MainApplication extends Application implements ReactApplication {
         }
 
         @Override
-        protected String getJSBundleFile() {
-            return CodePush.getJSBundleFile();
-        }
-  
-
-        @Override
         protected List<ReactPackage> getPackages() {
           @SuppressWarnings("UnnecessaryLocalVariable")
           List<ReactPackage> packages = new PackageList(this).getPackages();
@@ -50,6 +44,12 @@ public class MainApplication extends Application implements ReactApplication {
         protected String getJSMainModuleName() {
           return "index";
         }
+
+         @Override
+        protected String getJSBundleFile() {
+            return CodePush.getJSBundleFile();
+        }
+  
       };
 
   private final ReactNativeHost mNewArchitectureNativeHost =

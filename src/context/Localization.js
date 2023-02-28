@@ -1,11 +1,13 @@
 import * as React from 'react';
 import i18n from 'i18n-js';
 import {useDispatch, useSelector} from 'react-redux';
+import {ApolloClient, InMemoryCache, ApolloProvider} from '@apollo/client';
 
 import en from '@i18n/en.json';
 import vi from '@i18n/vi.json';
 
 import Database from '@configs/Database';
+// import {MAIN_DOMAIN} from '@configs/Configs';
 import {AppNavigation} from '@routes/AppNavigation';
 import {onAddFirebaseToken} from '@redux/actions/configAction';
 import {getFirebaseToken} from '@services/Notification/NotificationService';
@@ -25,6 +27,12 @@ export const LocalizationProvider = () => {
     _checkFirebaseTokenFromAsyncStore();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const clientGraphql = new ApolloClient({
+    uri: 'https://countries.trevorblades.com/graphql',
+    cache: new InMemoryCache(),
+    defaultOptions: {watchQuery: {fetchPolicy: 'cache-and-network'}},
+  });
 
   const _dispatchAddFirebaseToken = token => {
     dispatch(onAddFirebaseToken(token));
@@ -52,8 +60,10 @@ export const LocalizationProvider = () => {
 
   return (
     <LocalizationContext.Provider value={localizationContext}>
-      <AppNavigation />
-      <LoadingIconAnimated isLoading={isLoading} />
+      <ApolloProvider client={clientGraphql}>
+        <AppNavigation />
+        <LoadingIconAnimated isLoading={isLoading} />
+      </ApolloProvider>
     </LocalizationContext.Provider>
   );
 };

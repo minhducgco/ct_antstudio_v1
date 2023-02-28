@@ -1,4 +1,3 @@
-import {Platform} from 'react-native';
 import {LocaleConfig} from 'react-native-calendars';
 
 export const VN_FORMAT_TIME = 'HH:mm';
@@ -9,15 +8,16 @@ export const GL_FORMAT_DATETIME = 'YYYY-MM-DD HH:mm:ss';
 
 export const regexForNames = /^[a-zA-Z]{2,25}$/;
 
-export const appConfig = {
-  isGoogleAuthEnabled: true,
-  isAppleAuthEnabled: true,
-  isFacebookAuthEnabled: true,
-  forgotPasswordEnabled: true,
-  facebookIdentifier: '875933576873186',
+export const MAIN_DOMAIN = 'http://192.168.163.187:8080';
+
+export const googleConfig = {
   webClientId:
     '653218895930-13hu47jmv6r34bkuiqpolpkvhfiaprrj.apps.googleusercontent.com',
-  appIdentifier: `io.ct_antstudio_v1.rn.${Platform.OS}`,
+  offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
+  hostedDomain: '', // specifies a hosted domain restriction
+  loginHint: '', // [iOS] The user's ID, or email address, to be prefilled in the authentication UI if possible.
+  forceCodeForRefreshToken: true, // [Android] related to `serverAuthCode`, read the docs link below *.
+  accountName: '', // [Android] specifies an account name on the device that should be used
 };
 
 LocaleConfig.locales.vi = {
