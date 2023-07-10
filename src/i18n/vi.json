@@ -18,5 +18,10 @@
   "forgot_password": "Quên mật khẩu?",
   "login_with": "Hoặc, đăng nhập bằng...",
   "new_to_Chiti": "Bạn mới sử dụng Chiti?",
-  "register": "Đăng ký"
+  "register": "Đăng ký",
+  "otp_input": "Nhập mã OTP",
+  "send": "Gửi",
+  "verify": "Xác nhận",
+  "have_received_the_code_yet": "Bạn chưa nhận được mã?",
+  "resend_otp": "Gửi lại OTP"
 }

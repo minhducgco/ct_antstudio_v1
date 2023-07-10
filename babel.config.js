@@ -1,10 +1,10 @@
-module.exports = {
+module.exports = api => ({
   presets: ['module:metro-react-native-babel-preset'],
   plugins: [
     [
       'module-resolver',
       {
-        root: ['.'],
+        root: ['./src'],
         extensions: [
           '.ios.ts',
           '.android.ts',
@@ -23,7 +23,7 @@ module.exports = {
           '@context': './src/context',
           '@data': './src/data',
           '@i18n': './src/i18n',
-          '@pages': './src/pages',
+          '@screens': './src/screens',
           '@redux': './src/redux',
           '@repository': './src/repository',
           '@routes': './src/routes',
@@ -33,5 +33,7 @@ module.exports = {
         },
       },
     ],
+    'react-native-reanimated/plugin',
+    ...(api.env() !== 'development' ? ['transform-remove-console'] : []),
   ],
-};
+});

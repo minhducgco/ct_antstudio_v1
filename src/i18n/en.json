@@ -18,5 +18,10 @@
   "forgot_password": "Forgot password?",
   "login_with": "Or, login with...",
   "new_to_Chiti": "New to Chiti?",
-  "register": "Register"
+  "register": "Register",
+  "otp_input": "OTP Input",
+  "send": "Send",
+  "verify": "Verify",
+  "have_received_the_code_yet": "Haven't received the code yet?",
+  "resend_otp": "Resend OTP"
 }

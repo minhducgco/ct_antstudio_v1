@@ -2,17 +2,19 @@ import React, {useEffect} from 'react';
 import {Provider} from 'react-redux';
 import codePush from 'react-native-code-push';
 import {Settings} from 'react-native-fbsdk-next';
+import {PersistGate} from 'redux-persist/integration/react';
 import {Provider as ProviderPaper} from 'react-native-paper';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {ToastAndroid, BackHandler, StatusBar, Platform} from 'react-native';
+import {ToastAndroid, BackHandler, StatusBar} from 'react-native';
 
-import store from '@redux/store';
-import {LocalizationProvider} from '@context/Localization';
-import {requestUserPermission} from '@services/Notification/NotificationService';
+import {store, persistor} from '@redux/store';
+import {AppNavigation} from '@routes/AppNavigation';
+import {LocalizationProvider} from '@context/LocalizationContext';
+import ModalToastMessage from '@components/Modal/ModalToastMessage';
+import LoadingWithLottie from '@components/Loading/LoadingWithLottie';
 
 const codePushOptions = {
-  checkFrequency: codePush.CheckFrequency.ON_APP_START,
   installMode: codePush.InstallMode.IMMEDIATE,
+  checkFrequency: codePush.CheckFrequency.ON_APP_START,
 };
 
 const App = () => {
@@ -35,18 +37,6 @@ const App = () => {
     return true;
   };
 
-  useEffect(() => {
-    if (Platform.OS === 'ios') {
-      AsyncStorage.getItem('version_autheStatus1')
-        .then(res => {
-          if (Number(res) !== 1) {
-            requestUserPermission();
-          }
-        })
-        .catch(err => console.log(err));
-    }
-  }, []);
-
   return (
     <ProviderPaper>
       <StatusBar
@@ -54,8 +44,14 @@ const App = () => {
         backgroundColor={'transparent'}
         barStyle="dark-content"
       />
-      <Provider Provider store={store}>
-        <LocalizationProvider />
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <LocalizationProvider>
+            <AppNavigation />
+            <ModalToastMessage />
+            <LoadingWithLottie />
+          </LocalizationProvider>
+        </PersistGate>
       </Provider>
     </ProviderPaper>
   );

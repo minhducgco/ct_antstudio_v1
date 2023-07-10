@@ -8,10 +8,11 @@ import NoFooter from '@routes/NoFooter';
 //----------------------BottomTabs-----------------------//
 import BottomTabs from '@routes/BottomTabs';
 //--------------------Authentication---------------------//
-import LoginScreen from '@pages/Authentication/LoginScreen';
-import SignUpScreen from '@pages/Authentication/SignUpScreen';
-import SpanishScreen from '@pages/Authentication/SpanishScreen';
-import OnboardingScreen from '@pages/Authentication/OnboardingScreen';
+import OTPScreen from '@screens/Authentication/OTPScreen';
+import LoginScreen from '@screens/Authentication/LoginScreen';
+import SignUpScreen from '@screens/Authentication/SignUpScreen';
+import SpanishScreen from '@screens/Authentication/SpanishScreen';
+import OnboardingScreen from '@screens/Authentication/OnboardingScreen';
 
 const Stack = createStackNavigator();
 
@@ -19,6 +20,7 @@ const AuthStack = () => (
   <Stack.Navigator
     initialRouteName="SpanishScreen"
     screenOptions={{headerShown: false}}>
+    <Stack.Screen name="OTPScreen" component={OTPScreen} />
     <Stack.Screen name="LoginScreen" component={LoginScreen} />
     <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
     <Stack.Screen name="SpanishScreen" component={SpanishScreen} />

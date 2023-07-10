@@ -6,6 +6,11 @@ import IconHome from './SvgIconHome';
 import IconCalculator from './SvgIconCalculator';
 import IconPerson from './SvgIconPerson';
 import IconNotification from './SvgIconNotification';
+import IconSettings from './SvgIconSettings';
+import SuccessToastBackground from './SvgSuccessToast';
+import FailToastBackground from './SvgFailToast';
+import WarningToastBackground from './SvgIconWarning';
+import HelpToastBackground from './SvgHelpToast';
 
 export {
   IconGoogle,
@@ -16,4 +21,9 @@ export {
   IconCalculator,
   IconPerson,
   IconNotification,
+  IconSettings,
+  SuccessToastBackground,
+  FailToastBackground,
+  WarningToastBackground,
+  HelpToastBackground,
 };

@@ -2,6 +2,9 @@ import appleAuth, {
   AppleAuthRequestScope,
   AppleAuthRequestOperation,
 } from '@invertase/react-native-apple-authentication';
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
+import {LoginManager, AccessToken} from 'react-native-fbsdk-next';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 import * as authAPI from './authClient';
@@ -104,7 +107,6 @@ export const loginOrSignUpWithGoogle = appConfig => {
           }
         });
     } catch (error) {
-      console.log('Đức', error);
       resolve({
         error: ErrorCode.googleSigninFailed,
       });
@@ -112,48 +114,49 @@ export const loginOrSignUpWithGoogle = appConfig => {
   });
 };
 
-// const loginOrSignUpWithFacebook = appConfig => {
-//   Facebook.initializeAsync(appConfig.facebookIdentifier);
-//   return new Promise(async (resolve, _reject) => {
-//     try {
-//       const {type, token, expires, permissions, declinedPermissions} =
-//         await Facebook.logInWithReadPermissionsAsync({
-//           permissions: ['public_profile', 'email'],
-//         });
-
-//       if (type === 'success') {
-//         // Get the user's name using Facebook's Graph API
-//         // const response = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
-//         // Alert.alert('Logged in!', `Hi ${(await response.json()).name}!`);
-//         authAPI
-//           .loginWithFacebook(token, appConfig.appIdentifier)
-//           .then(async response => {
-//             if (response?.user) {
-//               const newResponse = {
-//                 user: {...response.user},
-//                 accountCreated: response.accountCreated,
-//               };
-//               handleSuccessfulLogin(
-//                 newResponse.user,
-//                 response.accountCreated,
-//               ).then(response => {
-//                 // resolve(response);
-//                 resolve({
-//                   ...response,
-//                 });
-//               });
-//             } else {
-//               resolve({error: ErrorCode.fbAuthFailed});
-//             }
-//           });
-//       } else {
-//         resolve({error: ErrorCode.fbAuthCancelled});
-//       }
-//     } catch (error) {
-//       resolve({error: ErrorCode.fbAuthFailed});
-//     }
-//   });
-// };
+export const loginOrSignUpWithFacebook = async appIdentifier => {
+  try {
+    // Đăng nhập với Facebook
+    const result = await LoginManager.logInWithPermissions([
+      'public_profile',
+      'email',
+    ]);
+    if (result.isCancelled) {
+      throw new Error('Người dùng hủy đăng nhập');
+    }
+    // Lấy thông tin access token của Facebook
+    const data = await AccessToken.getCurrentAccessToken();
+    if (!data) {
+      throw new Error('Không thể lấy thông tin truy cập của Facebook');
+    }
+    // Tạo credential từ access token
+    const facebookCredential = auth.FacebookAuthProvider.credential(
+      data.accessToken,
+    );
+    // Đăng nhập vào Firebase sử dụng credential
+    const userCredential = await auth().signInWithCredential(
+      facebookCredential,
+    );
+    // Kiểm tra xem người dùng đã đăng ký trước đó chưa
+    const {uid, displayName, email} = userCredential.user;
+    const userRef = firestore().collection('users').doc(uid);
+    const userDoc = await userRef.get();
+    if (!userDoc.exists) {
+      // Nếu chưa đăng ký, tạo tài khoản mới
+      await userRef.set({
+        displayName,
+        email,
+        appIdentifier,
+        createdAt: firestore.FieldValue.serverTimestamp(),
+      });
+    }
+    // Trả về thông tin userCredential và userDoc
+    return {userCredential, userDoc};
+  } catch (error) {
+    console.error('Đăng nhập với Facebook thất bại: ', error);
+    throw error;
+  }
+};
 
 const authManager = {};
 
@@ -162,5 +165,6 @@ authManager.loginOrSignUpWithApple = loginOrSignUpWithApple;
 authManager.sendPasswordResetEmail = sendPasswordResetEmail;
 authManager.loginOrSignUpWithGoogle = loginOrSignUpWithGoogle;
 authManager.loginWithEmailAndPassword = loginWithEmailAndPassword;
+authManager.loginOrSignUpWithFacebook = loginOrSignUpWithFacebook;
 
 export default authManager;

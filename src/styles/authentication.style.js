@@ -3,6 +3,12 @@ import normalize from 'react-native-normalize';
 import color from '@styles/color';
 import themeStyle from '@styles/theme.style';
 
+export const CELL_SIZE = 40;
+export const CELL_BORDER_RADIUS = 8;
+export const DEFAULT_CELL_BG_COLOR = '#fff';
+export const ACTIVE_CELL_BG_COLOR = '#f7fafe';
+export const NOT_EMPTY_CELL_BG_COLOR = color.MAIN;
+
 export const authenticationStyle = {
   containerSpanish: {
     flex: 1,
@@ -26,7 +32,8 @@ export const authenticationStyle = {
   },
   formLogin: {
     flex: 1,
-    paddingHorizontal: 20,
+    paddingHorizontal: normalize(20),
+    // paddingTop: normalize(20),
     justifyContent: 'center',
   },
   alertRequireText: {
@@ -34,17 +41,18 @@ export const authenticationStyle = {
     color: themeStyle.MAIN_COLOR,
     fontFamily: themeStyle.FONT_FAMILY,
   },
-  loginButton: {
-    marginTop: normalize(10),
+  authButton: disable => ({
     alignSelf: 'center',
     justifyContent: 'center',
-    height: normalize(50),
+    alignItems: 'center',
+    marginTop: normalize(10),
     width: '90%',
     borderRadius: normalize(5),
-    backgroundColor: color.MAIN,
-  },
+    backgroundColor: disable ? color.DUSTY_GRAY : color.MAIN,
+  }),
   textButton: {
     fontSize: 20,
+    paddingVertical: normalize(10),
     fontFamily: themeStyle.FONT_BOLD,
     color: '#ffffff',
   },
@@ -74,6 +82,11 @@ export const authenticationStyle = {
     marginLeft: normalize(5),
     fontSize: 16,
   },
+  viewReSend: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginBottom: normalize(20),
+  },
   loginWith: {
     alignSelf: 'center',
     flexDirection: 'row',
@@ -100,5 +113,78 @@ export const authenticationStyle = {
     flex: 8,
     alignSelf: 'center',
     fontSize: 16,
+  },
+  codeFieldRoot: {
+    height: CELL_SIZE,
+    marginVertical: normalize(10),
+    paddingHorizontal: 20,
+    justifyContent: 'center',
+    // backgroundColor: 'red',
+  },
+  cell: {
+    marginHorizontal: 8,
+    height: CELL_SIZE,
+    width: CELL_SIZE,
+    lineHeight: CELL_SIZE - 5,
+    fontSize: 24,
+    textAlign: 'center',
+    borderRadius: CELL_BORDER_RADIUS,
+    color: color.MAIN,
+    backgroundColor: '#fff',
+    borderColor: color.MAIN,
+    // borderWidth: 1,
+    // IOS
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    // Android
+    elevation: 3,
+  },
+  root: {
+    minHeight: 800,
+    padding: 20,
+  },
+  title: {
+    paddingTop: 50,
+    color: '#000',
+    fontSize: 25,
+    fontWeight: '700',
+    textAlign: 'center',
+    paddingBottom: 40,
+  },
+  icon: {
+    width: 217 / 2.4,
+    height: 158 / 2.4,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+  subTitle: {
+    paddingTop: 30,
+    color: '#000',
+    textAlign: 'center',
+  },
+  nextButton: {
+    marginTop: 30,
+    borderRadius: 60,
+    height: 60,
+    backgroundColor: '#3557b7',
+    justifyContent: 'center',
+    minWidth: 300,
+    marginBottom: 100,
+  },
+  nextButtonText: {
+    textAlign: 'center',
+    fontSize: 20,
+    color: '#fff',
+    fontWeight: '700',
+  },
+  imageForgetPass: {
+    width: normalize(200),
+    height: normalize(200),
+    alignSelf: 'center',
   },
 };

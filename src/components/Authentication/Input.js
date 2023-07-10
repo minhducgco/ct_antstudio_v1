@@ -7,72 +7,98 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import COLORS from '@styles/color';
 import theme from '@styles/theme.style';
 
-const Input = ({
-  label,
-  iconName,
-  error,
-  password,
-  onFocus = () => {},
-  onPressIn = () => {},
-  ...props
-}) => {
-  const [isFocused, setIsFocused] = React.useState(false);
-  const [hidePassword, setHidePassword] = React.useState(password);
-  return (
-    <View>
-      <View
-        style={[
-          style.inputContainer,
-          {
-            borderColor: error
-              ? COLORS.red
-              : isFocused
-              ? COLORS.darkBlue
-              : COLORS.light,
-            alignItems: 'center',
-          },
-        ]}>
-        <MaterialCommunityIcons
-          name={iconName}
-          style={{
-            color: COLORS.MAIN,
-            fontSize: 22,
-            marginRight: 10,
-          }}
-        />
-        <TextInput
-          autoCorrect={false}
-          onPressIn={() => onPressIn()}
-          onFocus={() => {
-            onFocus();
-            setIsFocused(true);
-          }}
-          onBlur={() => setIsFocused(false)}
-          secureTextEntry={hidePassword}
-          autoCapitalize="none"
-          style={{
-            color: COLORS.darkBlue,
-            flex: 1,
-            fontSize: 16,
-            fontFamily: theme.FONT_FAMILY,
-          }}
-          {...props}
-        />
-        {password && (
+const Input = React.forwardRef(
+  (
+    {
+      label,
+      iconName,
+      error,
+      password,
+      onFocus = () => {},
+      onPressIn = () => {},
+      ...props
+    },
+    ref,
+  ) => {
+    const textInputRef = React.useRef(null);
+    const [value, setValue] = React.useState('');
+    const [isFocused, setIsFocused] = React.useState(false);
+    const [hidePassword, setHidePassword] = React.useState(password);
+
+    React.useImperativeHandle(ref, () => ({
+      focus: () => {
+        textInputRef.current.focus();
+      },
+      clear: () => {
+        textInputRef.current.clear();
+      },
+      value,
+      clearValue,
+    }));
+
+    const clearValue = () => {
+      setValue('');
+    };
+
+    return (
+      <View>
+        <View
+          style={[
+            style.inputContainer,
+            {
+              borderColor: error
+                ? COLORS.red
+                : isFocused
+                ? COLORS.darkBlue
+                : COLORS.light,
+              alignItems: 'center',
+            },
+          ]}>
           <MaterialCommunityIcons
-            onPress={() => setHidePassword(!hidePassword)}
-            name={hidePassword ? 'eye-outline' : 'eye-off-outline'}
+            name={iconName}
             style={{
-              color: COLORS.darkBlue,
+              color: COLORS.MAIN,
               fontSize: 22,
-              marginLeft: normalize(10),
+              marginRight: 10,
             }}
           />
-        )}
+          <TextInput
+            ref={textInputRef}
+            value={value}
+            autoCorrect={false}
+            onChangeText={setValue}
+            onPressIn={() => onPressIn()}
+            onFocus={() => {
+              onFocus();
+              setIsFocused(true);
+            }}
+            onBlur={() => setIsFocused(false)}
+            secureTextEntry={hidePassword}
+            autoCapitalize="none"
+            style={{
+              color: COLORS.darkBlue,
+              flex: 1,
+              fontSize: 16,
+              fontFamily: theme.FONT_FAMILY,
+            }}
+            {...props}
+          />
+          {password && (
+            <MaterialCommunityIcons
+              onPress={() => setHidePassword(!hidePassword)}
+              name={hidePassword ? 'eye-outline' : 'eye-off-outline'}
+              style={{
+                color: COLORS.darkBlue,
+                fontSize: 22,
+                marginLeft: normalize(10),
+              }}
+            />
+          )}
+        </View>
       </View>
-    </View>
-  );
-};
+    );
+  },
+);
 
 const style = StyleSheet.create({
   label: {

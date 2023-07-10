@@ -13,7 +13,7 @@ module.exports = {
         ['@context', './src/context'],
         ['@data', './src/data'],
         ['@i18n', './src/i18n'],
-        ['@pages', './src/pages'],
+        ['@screens', './src/screens'],
         ['@redux', './src/redux'],
         ['@repository', './src/repository'],
         ['@routes', './src/routes'],

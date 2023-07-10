@@ -1,138 +1,131 @@
-import React, {useState, useContext} from 'react';
+import React, {useRef, useContext} from 'react';
 import {useDispatch} from 'react-redux';
-import {Button} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
-import {Text, View, Keyboard, StyleSheet, TouchableOpacity} from 'react-native';
+import {Text, View, Keyboard, TouchableOpacity} from 'react-native';
 
-import Input from './Input';
-// import {showMessage} from '@utils/';
-import theme from '@styles/theme.style';
-import {appConfig} from '@configs/Configs';
-import {setLoading} from '@redux/actions/configAction';
-import {LocalizationContext} from '@context/Localization';
-import {authenticationStyle} from '@styles/authentication.style';
+import {showMessage} from '@utils/';
+import {googleConfig} from '@configs/Configs';
+import Input from '@components/Authentication/Input';
+import {setIsLoading} from '@redux/reducer/configReducer';
+import AuthButton from '@components/Authentication/Button';
+import {LocalizationContext} from '@context/LocalizationContext';
 import {IconGoogle, IconFacebook, IconApple} from '@assets/svg/index';
 import authManager from '@repository/Authentication/firebaseAuthManager';
+import {authenticationStyle as styles} from '@styles/authentication.style';
 
-const Login = ({}) => {
+const Login = () => {
+  const usernameRef = useRef(null);
+  const passwordRef = useRef(null);
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const {t} = useContext(LocalizationContext);
-  const [inputs, setInputs] = useState({
-    email: '',
-    password: '',
-  });
-  const [errors, setErrors] = useState({});
-  const [require, setRequire] = useState(false);
 
-  const handleOnchange = (text, input) => {
-    setInputs(prevState => ({...prevState, [input]: text}));
-  };
-
-  const handleError = (error, input) => {
-    setErrors(prevState => ({...prevState, [input]: error}));
-  };
-
-  const onLogin = async () => {
+  const onLogin = () => {
     Keyboard.dismiss();
-    if (inputs.email && inputs.password) {
-      setRequire(false);
-      dispatch(setLoading(true));
+    if (usernameRef.current?.value && passwordRef.current?.value) {
+      dispatch(setIsLoading(true));
       authManager
         .loginWithEmailAndPassword(
-          inputs.email && inputs.email.trim(),
-          inputs.password && inputs.password.trim(),
+          usernameRef.current?.value && usernameRef.current?.value.trim(),
+          passwordRef.current?.value && passwordRef.current?.value.trim(),
         )
         .then(response => {
           if (response?.user) {
-            dispatch(setLoading(false));
-            navigation.navigate('BottomTabs', {
-              screen: 'HomeScreen',
+            showMessage.success('Đăng nhập thành công');
+            dispatch(setIsLoading(false));
+            usernameRef.current.clearValue();
+            passwordRef.current.clearValue();
+            navigation.reset({
+              index: 0,
+              routes: [{name: 'BottomTabs', params: {}}],
             });
           } else {
-            console.log(response.error);
-            dispatch(setLoading(false));
+            showMessage.fail(response.error);
+            dispatch(setIsLoading(false));
           }
         })
         .catch(error => console.log(error));
     } else {
-      setRequire(true);
+      showMessage.fail(t('email_or_password_is_invalid'));
     }
   };
 
-  const onLoginGoogle = () => {
-    console.log(JSON.stringify(appConfig, null, 2));
-    // authManager
-    //   .loginOrSignUpWithGoogle(appConfig)
-    //   .then(response => {
-    //     if (response?.user) {
-    //       console.log(JSON.stringify(response.user, null, 2));
-    //       navigation.navigate('BottomTabs', {
-    //         screen: 'HomeScreen',
-    //       });
-    //     } else {
-    //       console.log(response.error);
-    //     }
-    //   })
-    //   .catch(error => console.log(error));
+  const onLoginGoogle = async () => {
+    dispatch(setIsLoading(true));
+    authManager
+      .loginOrSignUpWithGoogle(googleConfig)
+      .then(response => {
+        if (response?.user) {
+          console.log(JSON.stringify(response.user, null, 2));
+          dispatch(setIsLoading(false));
+          navigation.replace('BottomTabs', {
+            screen: 'HomeScreen',
+          });
+        } else {
+          dispatch(setIsLoading(false));
+          console.log(response.error);
+        }
+      })
+      .catch(error => {
+        console.log(error);
+        dispatch(setIsLoading(false));
+      });
   };
 
   const onLoginApple = () => {
-    // showMessage(
-    //   'The password is invalid or the user does not have a password.',
-    // );
+    showMessage.help('Chức năng này đang phát triển, vui lòng thử lại sau!');
   };
 
-  const onLoginFacebook = () => {
-    // authManager
-    //   .loginOrSignUpWithFacebook(config)
-    //   .then(response => {
-    //     if (response?.user) {
-    //       console.log(JSON.stringify(response.user, null, 2));
-    //       navigation.navigate('BottomTabs', {
-    //         screen: 'HomeScreen',
-    //       });
-    //     } else {
-    //       console.log(response.error);
-    //     }
-    //   })
-    //   .catch(error => console.log(error));
+  const onLoginFacebook = async () => {
+    // dispatch(setIsLoading(true));
+    authManager.loginOrSignUpWithFacebook(googleConfig).then(response => {
+      console.log(JSON.stringify(response, null, 2));
+      // if (response?.user) {
+      //   console.log(JSON.stringify(response.user, null, 2));
+      //   navigation.replace('BottomTabs', {
+      //     screen: 'HomeScreen',
+      //   });
+      //   dispatch(setIsLoading(false));
+      //   // dispatch(setUserData({user}));
+      //   Keyboard.dismiss();
+      //   navigation.reset({
+      //     index: 0,
+      //     routes: [{name: 'MainStack', params: {}}],
+      //   });
+      // } else {
+      //   dispatch(setIsLoading(false));
+      //   console.log(response.error);
+      // }
+    });
+  };
+
+  const navigateForget = () => {
+    navigation.navigate('OTPScreen');
   };
 
   return (
     <View style={styles.formLogin}>
       <Text style={styles.txtLogo}>Chiti</Text>
       <Input
-        onChangeText={text => handleOnchange(text, 'email')}
-        onFocus={() => handleError(null, 'email')}
+        ref={usernameRef}
+        returnKeyType="next"
+        onSubmitEditing={() => passwordRef.current.focus()}
         iconName="email-outline"
         label={t('email')}
         placeholder={t('email')}
-        error={errors.email}
+        val
       />
       <Input
-        onChangeText={text => handleOnchange(text, 'password')}
-        onFocus={() => handleError(null, 'password')}
+        ref={passwordRef}
+        returnKeyType="done"
         iconName="lock-outline"
         label={t('password')}
         placeholder={t('password')}
-        error={errors.password}
+        onSubmitEditing={onLogin}
         password
       />
-      {require ? (
-        <Text style={styles.alertRequireText}>
-          {t('email_or_password_is_invalid')}
-        </Text>
-      ) : null}
-      <Button
-        mode="contained"
-        color={theme.MAIN_COLOR}
-        uppercase={false}
-        style={styles.loginButton}
-        onPress={onLogin}>
-        <Text style={styles.textButton}>{t('sign_in')}</Text>
-      </Button>
-      <TouchableOpacity>
+      <AuthButton title={t('sign_in')} onPress={onLogin} />
+      <TouchableOpacity onPress={navigateForget}>
         <Text style={styles.txtForgetPass}>{t('forgot_password')}</Text>
       </TouchableOpacity>
       <Text style={styles.txtLoginWith}>{t('login_with')}</Text>
@@ -161,7 +154,3 @@ const Login = ({}) => {
 };
 
 export default Login;
-
-const styles = StyleSheet.create({
-  ...authenticationStyle,
-});
